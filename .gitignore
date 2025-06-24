@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+Pipfile.lock
+
+# Flask environment variables
+.env
+
+# Database
+*.sqlite3
+*.db
+
+# Pytest cache
+.pytest_cache/
+
+# VS Code settings
+.vscode/
+
+# Migrations
+migrations/versions/
+
+# Logs
+*.log
+
+# Mac & Linux system files
+.DS_Store
+*.swp

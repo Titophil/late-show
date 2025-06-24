@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from werkzeug.security import generate_password_hash
 
 from server.config import Config
-from server.models import db  # Import the shared db instance
+from server.models import db  # Shared db instance
+from server.models.user import User  # Import User model
 
 # Controllers
 from server.controllers.auth_controller import auth_blueprint
@@ -26,3 +28,25 @@ app.register_blueprint(auth_blueprint)
 app.register_blueprint(episode_blueprint)
 app.register_blueprint(guest_blueprint)
 app.register_blueprint(appearance_blueprint)
+
+# Test route: Create user (for Postman testing)
+@app.route('/')
+def index():
+    return {'message': 'Late Show API is running.'}, 200
+
+@app.route('/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({"error": "Username and password are required"}), 400
+
+    hashed_password = generate_password_hash(password)
+    new_user = User(username=username, password_hash=hashed_password)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify(new_user.to_dict()), 201

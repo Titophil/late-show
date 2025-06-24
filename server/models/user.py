@@ -1,13 +1,15 @@
-# server/models/user.py
-# Import the shared 'db' instance from server.models.__init__.py
-from .__init__ import db # Or simply: from server.models import db
+from flask_sqlalchemy import SQLAlchemy
+from server.models import db  # Import db directly from server.models
 
 class User(db.Model):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password_hash = db.Column(db.String(120), nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
+    password_hash = db.Column(db.Text, nullable=False)  # Updated to Text to avoid length issues
 
-
-    def __repr__(self):
-        return f'<User {self.username}>'
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username
+        }

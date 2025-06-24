@@ -3,7 +3,7 @@ import os
 class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URI",
-        "postgresql://titus_user:my_secure_password@localhost:5432/late_show_db"
+        "postgresql://titus_user:Tituskiprono123#@localhost:5433/late_show_db"
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
